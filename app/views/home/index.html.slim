@@ -1,0 +1,15 @@
+h1 GitHubAPI
+
+- if current_user
+  = link_to 'Edit personal data', edit_user_registration_path
+  = ' | '
+  = link_to 'Sign_out', destroy_user_session_path, method: :delete
+
+  p = "Hello, #{current_user.email}"
+
+
+- unless current_user
+  = link_to 'Sign up', new_user_registration_path
+  = ' | '
+  = link_to 'Sign_in', new_user_session_path
+
