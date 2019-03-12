@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_11_103556) do
+ActiveRecord::Schema.define(version: 2019_03_12_085215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,28 @@ ActiveRecord::Schema.define(version: 2019_03_11_103556) do
     t.datetime "updated_at", null: false
     t.index ["uid", "provider"], name: "index_authorizations_on_uid_and_provider", unique: true
     t.index ["user_id"], name: "index_authorizations_on_user_id"
+  end
+
+  create_table "languages", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "repositories", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "name", null: false
+    t.bigint "total_bytes", default: 0
+    t.string "description"
+    t.string "license"
+    t.string "language"
+    t.integer "stars", default: 0
+    t.integer "forks", default: 0
+    t.integer "opend_issues", default: 0
+    t.string "url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_repositories_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
