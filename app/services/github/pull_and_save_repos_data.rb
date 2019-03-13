@@ -3,12 +3,19 @@ class Github::PullAndSaveReposData
   def initialize(user)
     @user = user
     @client = Github::Api.new(user_token)
+    @user_laguages = []
   end
 
   def call
     @client.repos.each do |repo|
-      @user.repositories.update_or_create_by(repo.id, repo_data(repo))
+      user_repo = @user.repositories.update_or_create_by(repo.id, repo_data(repo))
+
+      repo_langs = @client.languages(repo)
+      @user_laguages += repo_langs.fields.to_a
+      Github::RepoLangTotalsHandler.new(user_repo, repo_langs).call
     end
+
+    Github::UserLangTotalsHandler.new(@user, @user_laguages.uniq).call
   end
 
 

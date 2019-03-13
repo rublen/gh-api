@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 2019_03_12_144914) do
     t.string "langable_type"
     t.bigint "langable_id"
     t.bigint "language_id"
-    t.integer "repos_count", default: 1
+    t.integer "repos_count", default: 0
     t.bigint "bytes", default: 0
-    t.decimal "percent", precision: 5, scale: 2
+    t.float "percent"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["langable_type", "langable_id"], name: "index_github_lang_totals_on_langable_type_and_langable_id"

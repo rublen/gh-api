@@ -4,7 +4,8 @@ class Repository < ApplicationRecord
   has_many :languages, through: :github_lang_totals
 
   def self.update_or_create_by(repo_id, attributes)
-    repo = find_by(id: repo_id)
-    repo ? repo.update(attributes) : create(id: repo_id, **attributes)
+    # for using in :user association, for ex.: user.repositories.update_or_create_by(repo.id, repo_data(repo))
+    repo = find_by(id: repo_id) || new(id: repo_id, **attributes)
+    repo if repo.update(attributes)
   end
 end
