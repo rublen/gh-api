@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_12_085215) do
+ActiveRecord::Schema.define(version: 2019_03_12_144914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,19 @@ ActiveRecord::Schema.define(version: 2019_03_12_085215) do
     t.datetime "updated_at", null: false
     t.index ["uid", "provider"], name: "index_authorizations_on_uid_and_provider", unique: true
     t.index ["user_id"], name: "index_authorizations_on_user_id"
+  end
+
+  create_table "github_lang_totals", force: :cascade do |t|
+    t.string "langable_type"
+    t.bigint "langable_id"
+    t.bigint "language_id"
+    t.integer "repos_count", default: 1
+    t.bigint "bytes", default: 0
+    t.decimal "percent", precision: 5, scale: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["langable_type", "langable_id"], name: "index_github_lang_totals_on_langable_type_and_langable_id"
+    t.index ["language_id"], name: "index_github_lang_totals_on_language_id"
   end
 
   create_table "languages", force: :cascade do |t|
@@ -61,4 +74,5 @@ ActiveRecord::Schema.define(version: 2019_03_12_085215) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "github_lang_totals", "languages"
 end
