@@ -7,6 +7,7 @@ class OauthService
 
   def call
     token = auth.credentials.token
+    p "token: #{token}"
     uid = auth.uid #|| Github::Api.new(token).uid
     authorization = Authorization.find_by(uid: uid)
 
@@ -16,10 +17,13 @@ class OauthService
       email = auth.info.email #|| Github::Api.new(token).email
       user = User.find_by(email: email) || User.create!(email: email, password: Devise.friendly_token[0, 20]) if email
       authorization = user.authorizations.find_by(provider: auth.provider) ||
-                      user.authorizations.create(uid: uid, provider: auth.provider, email: email)
+                      user.authorizations.create(uid: uid, provider: auth.provider, email: email, token: token)
+                      # expires_at: auth[:credentials][:expires_at],
+                      # refresh_token: auth[:credentials][:refresh_token]
+      return user
     end
 
-    authorization.update(
+    authorization.update!(
       token: token
       # expires_at: auth[:credentials][:expires_at],
       # refresh_token: auth[:credentials][:refresh_token]

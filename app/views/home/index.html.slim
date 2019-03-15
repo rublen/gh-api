@@ -6,6 +6,17 @@ h1 GitHubAPI
   = link_to 'Sign_out', destroy_user_session_path, method: :delete
 
   p = "Hello, #{current_user.email}"
+  h3 Repositories
+  p = current_user.repositories.map(&:name)
+
+  h3 Languages
+
+  - current_user.github_lang_totals.each do |t|
+    h4 = t.language.name
+    p = "Total repositories, that use language: #{t.repos_count}: #{t.language.repos_of(current_user).map(&:name)}"
+
+    p = "Total bytes of code written on language: #{t.bytes}"
+    p = "Persentage: #{t.percent.round(2)}%"
 
 
 - unless current_user
