@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  repos_count: 1
+  bytes: 
+  percent: 1
+  language: one
+
+two:
+  repos_count: 1
+  bytes: 
+  percent: 1
+  language: two
